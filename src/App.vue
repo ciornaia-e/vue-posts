@@ -1,30 +1,185 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <div class="app">
+        <h1>Страница с постами</h1>
+        <post-input
+            v-model="searchQuery"
+            placeholder="Поиск..." 
+        />
+        <div class="app__btns">
+            <post-button 
+                @click="showModal"
+            >
+                Создать посты
+            </post-button>
+            <post-select 
+                v-model="selectedSort" 
+                :options="sortOptions"
+            />
+        </div>
+        <post-modal v-model:show="modalVisible">
+            <post-form @create="createPost" />
+        </post-modal>
+        <!-- <post-list 
+            :posts="sortedPosts" 
+            @remove="removePost"
+            class="posts"
+            v-if="!isPostsLoading"
+        /> -->
+        <div class="post-wrapper">
+            <post-list 
+                :posts="sortedAndSearchedPosts" 
+                @remove="removePost"
+                class="posts"
+                v-if="!isPostsLoading"
+            />
+            <div v-else>Идет загрузка...</div>
+        </div>
+        <div class="page-wrapper">
+            <div 
+                v-for="pageNumber in totalPages" 
+                :key="pageNumber"
+                class="page"
+                :class="{
+                    'current-page': page === pageNumber
+                }"
+                @click="changePage(pageNumber)"
+            >
+                {{ pageNumber }}
+            </div>
+        </div>
+    </div>
 </template>
 
+<script>
+    import axios from 'axios'
+    import PostModal from '@/components/UI/PostModal.vue'
+    import PostButton from '@/components/UI/PostButton.vue'
+    import PostForm from '@/components/PostForm'
+    import PostList from '@/components/PostList'
+    import PostSelect from '@/components/UI/PostSelect'
+    import PostInput from '@/components/UI/PostInput'
+
+    export default {
+        components: {
+            PostForm,
+            PostList,
+            PostModal,
+            PostButton,
+            PostSelect,
+            PostInput
+        },
+        data() {
+            return {
+                posts: [],
+                modalVisible: false,
+                isPostsLoading: false,
+                page: 1,
+                limit: 10,
+                totalPages: 0,
+                searchQuery: '',
+                selectedSort: '',
+                sortOptions: [
+                    {value: 'title', name: 'По названию'},
+                    {value: 'body', name: 'По содержимому'},
+                ]
+            }
+        },
+        methods: {
+            createPost(post) {
+                this.posts.push(post)
+                this.modalVisible = false
+
+            },
+            removePost(post) {
+                this.posts = this.posts.filter(p => p.id !== post.id)
+            },
+            showModal() {
+                this.modalVisible = true
+            },
+            changePage(pageNumber) {
+                this.page = pageNumber
+            },
+            async fetchPost() {
+                try {
+                    this.isPostsLoading = true
+                    setTimeout(async () => {
+                        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+                            params: {
+                                _page: this.page,
+                                _limit: this.limit
+                            }
+                        })
+                        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
+                        this.posts = response.data
+                        this.isPostsLoading = false
+                    }, 1000)
+                } catch(e) {
+                    alert('Ошибка!')
+                } finally {
+                    // this.isPostsLoading = false
+                }
+            }
+        },
+        mounted() {
+            this.fetchPost()
+        },
+        computed: {
+            sortedPosts() {
+                return[...this.posts].sort((a, b) => a[this.selectedSort]?.localeCompare(b[this.selectedSort]))
+            },
+            sortedAndSearchedPosts() {
+                return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase())) 
+            }
+        },
+        watch: {
+            page() {
+                this.fetchPost()
+            }
+        }
+        // watch: {
+        //     selectedSort(newValue) {
+        //         this.posts.sort((a, b) => a[newValue]?.localeCompare(b[newValue]))
+        //     }
+        // }
+    }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-nav {
-  padding: 30px;
-}
+    .app {
+        margin: 15px;
+    }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    h1 {
+        margin-bottom: 30px;
+    }
 
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+    .app__btns {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .post-wrapper {
+        margin-bottom: 15px;
+    }
+
+    .page-wrapper {
+        display: flex;
+    }
+
+    .page {
+        border: 1px solid black;
+        padding: 10px;
+        margin: 0 10px;
+    }
+
+    .page.current-page {
+        border: 2px solid teal;
+    }
 </style>
