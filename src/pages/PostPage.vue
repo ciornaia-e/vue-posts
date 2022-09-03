@@ -48,7 +48,7 @@
                 {{ pageNumber }}
             </div>
         </div> -->
-        <div v-intersection="loadMorePost" class="observer"></div>
+        <div v-intersection="loadMorePosts" class="observer"></div>
     </div>
 </template>
 
@@ -101,7 +101,7 @@
             // changePage(pageNumber) {
             //     this.page = pageNumber
             // },
-            async fetchPost() {
+            async fetchPosts() {
                 try {
                     this.isPostsLoading = true
                     setTimeout(async () => {
@@ -111,6 +111,7 @@
                                 _limit: this.limit
                             }
                         })
+
                         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
                         this.posts = response.data
                         this.isPostsLoading = false
@@ -121,7 +122,7 @@
                     // this.isPostsLoading = false
                 }
             },
-            async loadMorePost() {
+            async loadMorePosts() {
                 try {
                     this.page += 1
                     setTimeout(async () => {
@@ -131,17 +132,18 @@
                                 _limit: this.limit
                             }
                         })
+                        
                         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
                         this.posts = [...this.posts, ...response.data]
                         this.isPostsLoading = false
                     }, 1000)
                 } catch(e) {
-                    alert('Ошибка!')
+                    alert('Error!')
                 }
             }
         },
         mounted() {
-            this.fetchPost()
+            this.fetchPosts()
         },
         computed: {
             sortedPosts() {
@@ -153,7 +155,7 @@
         },
         watch: {
             // page() {
-            //     this.fetchPost()
+            //     this.fetchPosts()
             // }
         }
         // watch: {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import toggleMixin from '@/mixins/toggleMixin';
+    import toggleMixin from '@/mixins/toggleMixin';
 
     export default {
         name: 'post-modal',

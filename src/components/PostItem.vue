@@ -1,7 +1,7 @@
 <template>
     <div class="post">
         <div class="post__container">
-            <div>{{ post.id }}</div>
+            <!-- <div>{{ post.id }} likes: {{ $store.state.likes }}</div> -->
             <p><strong>Title:</strong> {{ post.title }}</p>
             <p><strong>Description:</strong> {{ post.body }}</p>
         </div>

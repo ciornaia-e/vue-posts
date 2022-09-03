@@ -14,6 +14,18 @@
             >
                 About
             </post-button>
+            <post-button 
+                @click="$router.push('/store')"
+                class="btn-nav"
+            >
+                Store
+            </post-button>
+            <post-button 
+                @click="$router.push('/composition')"
+                class="btn-nav"
+            >
+                Composition
+            </post-button>
         </div>
     </div>
 </template>
