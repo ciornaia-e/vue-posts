@@ -4,7 +4,7 @@
         @change="changeOption"
         class="select"
     >
-        <option disabled value="">Выберите из списка</option>
+        <option disabled value="">Select from list</option>
         <option 
             v-for="option in options"
             :key="option.value"

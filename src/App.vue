@@ -1,7 +1,9 @@
 <template>
     <div class="app">
         <nav-bar></nav-bar>
-        <router-view></router-view>
+        <div class="wrapper">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -20,7 +22,7 @@
         box-sizing: border-box;
     }
 
-    .app {
+    .wrapper {
         margin: 15px;
     }
 </style>

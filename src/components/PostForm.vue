@@ -1,21 +1,21 @@
 <template>
     <form class="form" @submit.prevent>
-        <h2>Описание поста</h2>
+        <h2>Post description</h2>
         <post-input 
             v-model="post.title"
             type="text" 
-            placeholder="Название" 
+            placeholder="Title" 
         />
         <post-input 
             v-model="post.body"
             type="text" 
-            placeholder="Описание" 
+            placeholder="Description" 
         />
         <post-button 
             class="btn-create"
             @click="createPost"
         >
-            Создать
+            Create
         </post-button>
     </form>
 </template>

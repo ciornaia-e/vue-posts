@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h1>Страница с постами</h1>
+        <h1>Post Page</h1>
         <post-input
             v-model="searchQuery"
-            placeholder="Поиск..." 
+            placeholder="Search..." 
         />
         <div class="app__btns">
             <post-button 
                 @click="showModal"
             >
-                Создать посты
+                Create post
             </post-button>
             <post-select 
                 v-model="selectedSort" 
@@ -32,7 +32,7 @@
                 class="posts"
                 v-if="!isPostsLoading"
             />
-            <div v-else>Идет загрузка...</div>
+            <div v-else>Loading...</div>
         </div>
         <!-- <div class="page-wrapper">
             <div 
@@ -80,8 +80,8 @@
                 searchQuery: '',
                 selectedSort: '',
                 sortOptions: [
-                    {value: 'title', name: 'По названию'},
-                    {value: 'body', name: 'По содержимому'},
+                    {value: 'title', name: 'By title'},
+                    {value: 'body', name: 'By description'},
                 ]
             }
         },

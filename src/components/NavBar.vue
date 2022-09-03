@@ -6,13 +6,13 @@
                 @click="$router.push('/posts')"
                 class="btn-nav"
             >
-                Посты
+                Posts
             </post-button>
             <post-button 
                 @click="$router.push('/about')"
                 class="btn-nav"
             >
-                О сайте
+                About
             </post-button>
         </div>
     </div>
