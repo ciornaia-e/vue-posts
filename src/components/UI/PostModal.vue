@@ -11,19 +11,11 @@
 </template>
 
 <script>
+import toggleMixin from '@/mixins/toggleMixin';
+
     export default {
         name: 'post-modal',
-        props: {
-            show: {
-                type: Boolean,
-                default: false
-            },
-        },
-        methods: {
-            hideModal() {
-                this.$emit('update:show', false)
-            }
-        }
+        mixins: [toggleMixin],
     }
 </script>
 
@@ -41,7 +33,6 @@
     .modal__content {
         margin: auto;
         background: white;
-        border-radius: 12px;
         min-height: 50px;
         min-width: 300px;
         padding: 20px;

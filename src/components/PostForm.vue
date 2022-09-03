@@ -1,7 +1,8 @@
 <template>
     <form class="form" @submit.prevent>
         <h2>Post description</h2>
-        <post-input 
+        <post-input
+            v-focus 
             v-model="post.title"
             type="text" 
             placeholder="Title" 

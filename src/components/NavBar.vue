@@ -1,6 +1,6 @@
 <template>
     <div class="navbar">
-        <h1 @click="$router.push('/')">Post Logo</h1>
+        <div @click="$router.push('/')">Post Logo</div>
         <div class="navbar__btns">
             <post-button 
                 @click="$router.push('/posts')"
@@ -26,7 +26,7 @@
 <style scoped>
     .navbar {
         height: 50px;
-        background-color: gray;
+        background-color: bisque;
         box-shadow: 2px 2px 4px gray;
         display: flex;
         align-items: center;

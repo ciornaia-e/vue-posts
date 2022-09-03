@@ -1,7 +1,7 @@
-import Main from '@/components/pages/Main'
-import About from '@/components/pages/About'
-import PostPage from '@/components/pages/PostPage'
-import PostIdPage from '@/components/pages/PostIdPage'
+import Main from '@/pages/Main'
+import About from '@/pages/About'
+import PostPage from '@/pages/PostPage'
+import PostIdPage from '@/pages/PostIdPage'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [

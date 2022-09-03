@@ -3,7 +3,8 @@
         <h1>Post Page</h1>
         <post-input
             v-model="searchQuery"
-            placeholder="Search..." 
+            placeholder="Search..."
+            v-focus 
         />
         <div class="app__btns">
             <post-button 
@@ -47,7 +48,7 @@
                 {{ pageNumber }}
             </div>
         </div> -->
-        <div ref="observer" class="observer"></div>
+        <div v-intersection="loadMorePost" class="observer"></div>
     </div>
 </template>
 
@@ -141,18 +142,6 @@
         },
         mounted() {
             this.fetchPost()
-            console.log(this.$refs.observer)
-            const options = {
-                rootMargin: '0px',
-                threshold: 1.0
-            }
-            const callback = (entries, observer) => {
-                if(entries[0].isIntersecting && this.page < this.totalPages) {
-                    this.loadMorePost()
-                }
-            }
-            const observer = new IntersectionObserver(callback, options)
-            observer.observe(this.$refs.observer)
         },
         computed: {
             sortedPosts() {
